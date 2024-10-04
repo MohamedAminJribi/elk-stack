@@ -1,0 +1,11 @@
+apiVersion: v2
+description: Official Elastic helm chart for Logstash
+home: https://github.com/elastic/helm-charts
+name: elk-logstash
+version: 8.5.1
+appVersion: 8.5.1
+icon: https://helm.elastic.co/icons/logstash.png
+dependencies:
+  - name: logstash
+    repository: "https://helm.elastic.co"
+    version: 8.5.1

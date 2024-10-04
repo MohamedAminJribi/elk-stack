@@ -1,0 +1,13 @@
+apiVersion: v2
+appVersion: 8.5.1
+description: Official Elastic helm chart for Kibana
+home: https://github.com/elastic/helm-charts
+name: elk-kibana
+version: 8.5.1
+icon: https://helm.elastic.co/icons/kibana.png
+dependencies:
+  - name: kibana
+    repository: https://helm.elastic.co
+    version: 8.5.1
+  
+

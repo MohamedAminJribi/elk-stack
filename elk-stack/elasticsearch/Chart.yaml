@@ -1,0 +1,13 @@
+apiVersion: v2
+description: Official Elastic helm chart for Elasticsearch
+home: https://github.com/elastic/helm-charts
+name: elk-elasticsearch
+version: 8.5.1
+appVersion: 8.5.1
+sources:
+  - https://github.com/elastic/elasticsearch
+icon: https://helm.elastic.co/icons/elasticsearch.png
+dependencies:
+  - name: elasticsearch
+    repository: https://helm.elastic.co
+    version: 8.5.1
