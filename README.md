@@ -13,10 +13,10 @@ ELK Stack for Centralized Logging: A comprehensive setup of Elasticsearch, Logst
          - cd elasticsearch
          - helm dep update
 4. Install the ELK Stack :
-    - If you are inside the directory : /elasticsearch
-      run : helm install elasticsearch ./
+    - If you are inside the directory : * /elasticsearch
+      run : - helm install elasticsearch ./
     - If you are in the root directory of the repository : /elk-stack
-      run : helm install elasticsearch elasticsearch
+      run : - helm install elasticsearch elasticsearch
 5.   
 
 
