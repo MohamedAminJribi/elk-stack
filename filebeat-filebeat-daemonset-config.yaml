@@ -24,7 +24,8 @@ data:
                     logs_path: "/var/log/containers/"
 
     output.logstash:
-      hosts: ["logstash-logstash-headless:5044"]
+      hosts: ["98.66.189.124:5044"]
+      #hosts: ["logstash-logstash-headless:5044"]
       #ssl.certificate_authorities: ["/usr/share/filebeat/certs/ca.crt"]
 kind: ConfigMap
 metadata:
