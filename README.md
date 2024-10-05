@@ -21,6 +21,12 @@ NB: don't forget to change password from values.yaml of elasticsearch LINE 61
     and in values.yaml of logstash  LINE 23,79
 
 
+## Contributing
+
+    If you find any bugs or would like to optimize the code, feel free to contribute. Pull requests are welcome!
+
+
+
 
 
 
