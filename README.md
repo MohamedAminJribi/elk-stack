@@ -22,7 +22,7 @@ Before starting, ensure that you have the following tools installed on your loca
          - `helm dep update`
 4. Install the all element elk :
     - If you are inside the directory ( `../elasticsearch`) run :
-       - `helm install elasticsearch` 
+       - `helm install elasticsearch ./` 
     - If you are in the root directory of the repository ( `../elk-stack`) run :
        - `helm install elasticsearch elasticsearch`.
 
