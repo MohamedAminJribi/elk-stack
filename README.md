@@ -18,8 +18,8 @@ ELK Stack for Centralized Logging: A comprehensive setup of Elasticsearch, Logst
     - If you are in the root directory of the repository ( `../elk-stack`) run :
        - `helm install elasticsearch elasticsearch`.
          
-NB: don't forget to change password from values.yaml of elasticsearch LINE 61 
-    and in values.yaml of logstash  LINE 23,79
+NB: don't forget to change password from values.yaml of elasticsearch LINE "61" 
+    and in values.yaml of logstash  LINE "23","79"
 
 
 
