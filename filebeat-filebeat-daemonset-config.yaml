@@ -1,0 +1,44 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  filebeat.yml: |
+    filebeat.inputs:
+      - type: log
+        paths:
+          - /logs/*.log
+        multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+        multiline.negate: true
+        multiline.match: after
+        processors:
+          - dissect:
+              tokenizer: "%{timestamp} | %{log.level} | %{source_class} | %{source} - Message: %{response_code} | %{error_message} |%{CoorID}. Code: %{error_code}"
+              field: "message"
+              target_prefix: "dissected"
+          - add_kubernetes_metadata:
+              host: ${NODE_NAME}
+              matchers:
+                - logs_path:
+                    logs_path: "/var/log/containers/"
+
+    output.logstash:
+      hosts: ["logstash-logstash-headless:5044"]
+      #ssl.certificate_authorities: ["/usr/share/filebeat/certs/ca.crt"]
+kind: ConfigMap
+metadata:
+  annotations:
+    meta.helm.sh/release-name: filebeat
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2024-07-26T08:22:00Z"
+  labels:
+    app: filebeat-filebeat
+    app.kubernetes.io/managed-by: Helm
+    chart: filebeat-8.5.1
+    heritage: Helm
+    release: filebeat
+  name: filebeat-filebeat-daemonset-config
+  namespace: default
+  resourceVersion: "430924"
+  uid: eb18a1a7-a191-45d2-8e00-a7318de4d83c
