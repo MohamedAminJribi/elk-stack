@@ -13,25 +13,27 @@ Before starting, ensure that you have the following tools installed on your loca
    
 ## Getting Started
 1. Clone this repository
-3. Update your Helm repository to ensure you have the latest charts:
+2. Update your Helm repository to ensure you have the latest charts:
     - `helm repo add elastic https://helm.elastic.co`
     - ` helm repo update`
-4. Update Dependencies for Each Component
+3. Update Dependencies for Each Component
     - Navigate to each component directory (elasticsearch, logstash, kibana) and **update** the dependencies :
          -  `cd elasticsearch `
          - `helm dep update`
-5. Install the all element elk :
+4. Install the all element elk :
     - If you are inside the directory ( `../elasticsearch`) run :
        - `helm install elasticsearch` 
     - If you are in the root directory of the repository ( `../elk-stack`) run :
        - `helm install elasticsearch elasticsearch`.
-         
+
 NB: don't forget to change password from values.yaml of elasticsearch LINE "61" 
     and in values.yaml of logstash  LINE "23","79"
+     
 6. Install and configure Filebeat using the following ConfigMap and DaemonSet files in minikube , and mount the file containing the logs in Minikube
+ 
+         
+
     
-
-
 
 
 ## Contributing
