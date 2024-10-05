@@ -1,0 +1,6 @@
+# Ignorer le dossier charts dans elasticsearch
+elasticsearch/charts/
+# Ignorer le dossier charts dans kibana
+kibana/charts/
+# Ignorer le dossier charts dans logstash
+logstash/charts/
