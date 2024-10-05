@@ -15,14 +15,15 @@ logstash:
 
   # Allows you to add any pipeline files in /usr/share/logstash/pipeline/
   ### ***warn*** there is a hardcoded logstash.conf in the image, override it first
-  
-  logstash.yml: |
-      http.host: "0.0.0.0"
-      xpack.monitoring.elasticsearch.hosts: [ "https://elasticsearch-master:9200" ]
-      xpack.monitoring.elasticsearch.username: "elastic"
-      xpack.monitoring.elasticsearch.password: "password"
-      xpack.monitoring.enabled: true
-      xpack.monitoring.elasticsearch.ssl.certificate_authority: "/usr/share/logstash/config/certs/ca.crt"
+
+  #change  elasticsearch-master with the EXTERNAL-IP of elasticearch svc 
+   logstash.yml: |
+     http.host: "0.0.0.0"
+     xpack.monitoring.elasticsearch.hosts: [ "https://98.66.189.124:9200" ]
+     xpack.monitoring.elasticsearch.username: "elastic"
+     xpack.monitoring.elasticsearch.password: "password"
+     xpack.monitoring.enabled: true
+     xpack.monitoring.elasticsearch.ssl.certificate_authority: "/usr/share/logstash/config/certs/ca.crt"
   
   logstashPipeline: # {}
   #  logstash.conf: |
@@ -42,13 +43,13 @@ logstash:
 
         output {
           elasticsearch {
-            hosts => ["https://elasticsearch-master:9200"]
+            hosts => ["https://98.66.189.124:9200"]
             index => "logs-%{+YYYY.MM.dd}"
             user => "${ELASTICSEARCH_USERNAME}"
             password => "${ELASTICSEARCH_PASSWORD}"
             ssl => true
             cacert => "/usr/share/logstash/config/certs/ca.crt"
-            #ssl_certificate_verification => false
+            ssl_certificate_verification => false
           }
           stdout {
             codec => rubydebug
