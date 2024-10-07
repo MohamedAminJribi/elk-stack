@@ -42,9 +42,8 @@ jobs:
       run: terraform apply -auto-approve
       
     - name: Setup Helm
-      uses: azure/setup-helm@v1.2.0
-      with:
-        version: v3.7.0 # Specify the Helm version you want to use
+      uses: azure/setup-helm@v1
+      
 
     - name: Update Dependencies for Elasticsearch
       run: |
