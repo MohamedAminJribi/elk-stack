@@ -44,7 +44,11 @@ jobs:
     - name: Setup Helm
       uses: azure/setup-helm@v1
       
-
+    - name: Initialize Helm
+      run: |
+        helm repo add elastic https://elastic.github.io/helm-charts
+        helm repo update
+        
     - name: Update Dependencies for Elasticsearch
       run: |
         cd elk-stack/elasticsearch
