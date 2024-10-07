@@ -40,3 +40,41 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+      
+    - name: Setup Helm
+      uses: azure/setup-helm@v1.2.0
+      with:
+        version: v3.7.0 # Specify the Helm version you want to use
+
+    - name: Update Dependencies for Elasticsearch
+      run: |
+        cd elk-stack/elasticsearch
+        helm dependency update
+
+    - name: Install Elasticsearch
+      run: |
+        cd elk-stack/elasticsearch
+        helm install elasticsearch ./ 
+
+    - name: Update Dependencies for Kibana
+      run: |
+        cd elk-stack/kibana
+        helm dependency update
+
+    - name: Install Kibana
+      run: |
+        cd elk-stack/kibana
+        helm install kibana ./ 
+
+        
+    - name: Update Dependencies for Logstash
+      run: |
+        cd elk-stack/logstash
+        helm dependency update
+
+    - name: Install Logstash
+      run: |
+        cd elk-stack/logstash
+        helm install logstash ./ 
+
+   
