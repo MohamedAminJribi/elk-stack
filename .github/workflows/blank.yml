@@ -46,7 +46,7 @@ jobs:
       
     - name: Initialize Helm
       run: |
-        helm repo add elastic https://elastic.github.io/helm-charts
+        helm repo add elastic https://helm.elastic.co
         helm repo update
         
     - name: Update Dependencies for Elasticsearch
