@@ -36,13 +36,13 @@ jobs:
           echo test, and deploy your project.
       # Step 2: Set up Terraform (if you're using Terraform for infrastructure)
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.0.0  # Specify the Terraform version to use
+          terraform_version: 2.0.0  # Specify the Terraform version to use
 
       # Step 4: Set up Helm (if you're using Helm charts for ELK deployment)
       - name: Setup Helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v2
         with:
           version: v3.7.0  # Specify the Helm version
 
@@ -55,7 +55,7 @@ jobs:
       
       # Step 6: Deploy to Azure (Optional: If you're deploying on Azure using Terraform)
       - name: Azure Login
-        uses: azure/login@v1
+        uses: azure/login@v1.6
         with:
           creds: ${{ secrets.AZ_CREDENTIALS }}  # Add Azure credentials to GitHub Secrets
 
