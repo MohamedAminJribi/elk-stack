@@ -57,7 +57,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}  # Add Azure credentials to GitHub Secrets
+          creds: ${{ secrets.AZ_CREDENTIALS }}  # Add Azure credentials to GitHub Secrets
 
       - name: Deploy to Azure
         run: |
