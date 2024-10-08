@@ -29,7 +29,7 @@ jobs:
 
     # Step 4: Set up Helm
     - name: Setup Helm
-      uses: azure/setup-helm@v1.1
+      uses: azure/setup-helm@v3
 
     # Step 5: Run Terraform to create resources in Azure
     - name: Terraform Init
@@ -40,19 +40,11 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
-      
-    - name: Setup Helm
-      uses: azure/setup-helm@v1
 
-    - name: Initialize Helm
+    - name: Add Elastic Helm repo
       run: |
-       mkdir -p /home/runner/.config/helm
-       echo "apiVersion: v1
-    
-       repositories:
-       - name: elastic
-         url: https://helm.elastic.co" > /home/runner/.config/helm/repositories.yaml
- 
+        helm repo add elastic https://helm.elastic.co
+        helm repo update
 
     - name: Update Dependencies for Elasticsearch
       run: |
