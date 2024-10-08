@@ -81,15 +81,18 @@ jobs:
         
     - name: Retrieve Elasticsearch External IP
       run: |
-       ELASTICSEARCH_IP=$(kubectl get service elasticsearch -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-       echo "Elasticsearch External IP: $ELASTICSEARCH_IP"
-       echo "ELASTICSEARCH_IP=$ELASTICSEARCH_IP" >> $GITHUB_ENV
+          ELASTICSEARCH_IP=$(kubectl get service elasticsearch-master -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "Elasticsearch External IP: $ELASTICSEARCH_IP"
+          echo "ELASTICSEARCH_IP=$ELASTICSEARCH_IP" >> $GITHUB_ENV
 
     - name: Update Logstash Configuration with Elasticsearch IP
       run: |
-        cd elk-stack/logstash
-        sed -i "22s/.*/  hosts: ['${{ env.ELASTICSEARCH_IP }}:9200']/" values.yaml
-        sed -i "46s/.*/  hosts: ['${{ env.ELASTICSEARCH_IP }}:9200']/" values.yaml
+          cd elk-stack/logstash
+          # Update line 22 with the new IP
+          sed -i "s|xpack.monitoring.elasticsearch.hosts: \[.*\]|xpack.monitoring.elasticsearch.hosts: [ \"https://${{ env.ELASTICSEARCH_IP }}:9200\" ]|" values.yaml
+          # Update line 46 with the new IP
+          sed -i "s|hosts => \[.*\]|hosts => [\"https://${{ env.ELASTICSEARCH_IP }}:9200\"]|" values.yaml
+
 
         
     - name: Update Dependencies for Logstash
