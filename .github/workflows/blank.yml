@@ -45,7 +45,14 @@ jobs:
       run: |
         helm repo add elastic https://helm.elastic.co
         helm repo update
-
+        
+    - name: Set up Kubernetes Context for AKS
+      uses: azure/aks-set-context@v2
+      with:
+       creds: ${{ secrets.AZURE_CREDENTIALS }}
+       resource-group: example-resources  
+       cluster-name: example-aks1
+       
     - name: Update Dependencies for Elasticsearch
       run: |
         cd elk-stack/elasticsearch
