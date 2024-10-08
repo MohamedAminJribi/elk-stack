@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./terraform-directory
+        working-directory: ./main.tf
 
     steps:
     - name: Checkout code
