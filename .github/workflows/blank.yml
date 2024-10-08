@@ -13,25 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout code from your repository
+    #  Checkout code from your repository
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Step 2: Log in to Azure using Azure Login Action
+    #  Log in to Azure using Azure Login Action
     - name: Azure Login
       uses: azure/login@v1.6.1
       with:
         creds: ${{ secrets.AZ_CREDENTIALS }}
 
-    # Step 3: Set up Terraform
+    #  Set up Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
-    # Step 4: Set up Helm
+    #  Set up Helm
     - name: Setup Helm
       uses: azure/setup-helm@v3
 
-    # Step 5: Run Terraform to create resources in Azure
+    #  Run Terraform to create resources in Azure
     - name: Terraform Init
       run: terraform init
 
@@ -84,6 +84,8 @@ jobs:
           ELASTICSEARCH_IP=$(kubectl get service elasticsearch-master -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
           echo "Elasticsearch External IP: $ELASTICSEARCH_IP"
           echo "ELASTICSEARCH_IP=$ELASTICSEARCH_IP" >> $GITHUB_ENV
+          
+    
 
     - name: Update Logstash Configuration with Elasticsearch IP
       run: |
@@ -92,7 +94,6 @@ jobs:
           sed -i "s|xpack.monitoring.elasticsearch.hosts: \[.*\]|xpack.monitoring.elasticsearch.hosts: [ \"https://${{ env.ELASTICSEARCH_IP }}:9200\" ]|" values.yaml
           # Update line 46 with the new IP
           sed -i "s|hosts => \[.*\]|hosts => [\"https://${{ env.ELASTICSEARCH_IP }}:9200\"]|" values.yaml
-
 
         
     - name: Update Dependencies for Logstash
@@ -103,6 +104,21 @@ jobs:
     - name: Install Logstash
       run: |
         cd elk-stack/logstash
-        helm install logstash ./ 
+        helm install logstash ./
+        
+    - name: Display Elasticsearch External IP
+      run: | 
+        echo "The External IP address of elasticsearch is: ${{ env.ELASTICSEARCH_IP }}"
+      
+    #TO GET EXTERNAL-IP OF LOGSTASH AND USE IT IN THE DEAMONSET OF FILEBEAT :    
+    # - name: Retrieve Logstash External IP
+    #   run: |
+    #       LOGSTASH_IP=$(kubectl get service logstash -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    #       echo "Logstash External IP: $LOGSTASH_IP"
+    #       echo "LOGSTASH_IP=$LOGSTASH_IP" >> $GITHUB_ENV
+    
+     # - name: Display Logstash External IP
+     #   run: echo "The External IP address of Logstash is: ${{ env.LOGSTASH_IP }}"
+
 
    
