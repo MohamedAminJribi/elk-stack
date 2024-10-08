@@ -1,8 +1,6 @@
-# This is a basic workflow to help you get started with Actions
 
 name: CI
 
-# Controls when the workflow will run
 on:
   push:
     branches:
@@ -109,6 +107,16 @@ jobs:
     - name: Display Elasticsearch External IP
       run: | 
         echo "The External IP address of elasticsearch is: ${{ env.ELASTICSEARCH_IP }}"
+        
+    - name: Retrieve Kibana External IP
+      run: |
+          KIBANA_IP=$(kubectl get service kibana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "Kibana External IP: $KIBANA_IP"
+          echo "KIBANA_IP=$KIBANA_IP" >> $GITHUB_ENV
+
+    - name: Display Kibana External IP
+      run: |
+          echo "The External IP address of Kibana is: ${{ env.KIBANA_IP }}"
       
     #TO GET EXTERNAL-IP OF LOGSTASH AND USE IT IN THE DEAMONSET OF FILEBEAT :    
     # - name: Retrieve Logstash External IP
