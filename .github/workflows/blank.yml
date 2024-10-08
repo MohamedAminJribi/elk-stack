@@ -43,18 +43,17 @@ jobs:
       
     - name: Setup Helm
       uses: azure/setup-helm@v1
+
     - name: Initialize Helm
       run: |
-        mkdir -p /home/runner/.config/helm
-        echo "apiVersion: v1
-kind: Config
-repositories:
-- name: elastic
-  url: https://helm.elastic.co" > /home/runner/.config/helm/repositories.yaml  
-  
+       mkdir -p /home/runner/.config/helm
+       echo "apiVersion: v1
     
-    
-        
+       repositories:
+       - name: elastic
+         url: https://helm.elastic.co" > /home/runner/.config/helm/repositories.yaml
+ 
+
     - name: Update Dependencies for Elasticsearch
       run: |
         cd elk-stack/elasticsearch
