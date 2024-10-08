@@ -63,8 +63,10 @@ jobs:
         cd elk-stack/elasticsearch
         helm install elasticsearch ./ 
         
-    - name: Wait for Elasticsearch Pods to be Ready
-      run: kubectl wait --for=condition=ready pod -l app=elasticsearch --timeout=300s
+    # - name: Wait for Elasticsearch Pods to be Ready
+    #   run: kubectl wait --for=condition=ready pod -l app=elasticsearch --timeout=300s
+    - name: Wait for Elasticsearch to be Ready
+      run: sleep 250
 
 
     - name: Update Dependencies for Kibana
@@ -76,6 +78,7 @@ jobs:
       run: |
         cd elk-stack/kibana
         helm install kibana ./ 
+        
     - name: Retrieve Elasticsearch External IP
       run: |
        ELASTICSEARCH_IP=$(kubectl get service elasticsearch -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
