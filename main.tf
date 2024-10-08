@@ -5,6 +5,13 @@ terraform {
       version = "4.4.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name   = "myResourceGroup"         # Resource group name of the storage account
+    storage_account_name  = "myterraformstate"        # Storage account name for the state file
+    container_name        = "tfstate"                 # Container name within the storage account
+    key                   = "terraform.tfstate"       # State file name or path within the container
+    subscription_id       = "3e46735e-0bec-4d79-b3f7-06e45329de56" # Subscription ID for Azure
+  }
 }
 
 provider "azurerm" {
@@ -42,6 +49,7 @@ resource "azurerm_kubernetes_cluster" "example" {
     Environment = "Production"
   }
 }
+
 
 output "client_certificate" {
   value     = azurerm_kubernetes_cluster.example.kube_config[0].client_certificate
