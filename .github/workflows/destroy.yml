@@ -1,0 +1,26 @@
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch: # Enables manual triggering through GitHub Actions UI
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Azure Login
+      uses: azure/login@v1.6.1
+      with:
+        creds: ${{ secrets.AZ_CREDENTIALS }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
