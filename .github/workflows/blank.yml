@@ -31,12 +31,19 @@ jobs:
 
     #  Run Terraform to create resources in Azure
     - name: Terraform Init
+      env:
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       run: terraform init
 
     - name: Terraform Plan
+      env:
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       run: terraform plan
 
     - name: Terraform Apply
+      if: github.ref == 'refs/heads/main'
+      env:
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       run: terraform apply -auto-approve
 
     - name: Add Elastic Helm repo
@@ -63,19 +70,20 @@ jobs:
         
     # - name: Wait for Elasticsearch Pods to be Ready
     #   run: kubectl wait --for=condition=ready pod -l app=elasticsearch-master-0 --timeout=300s
+    
     - name: Wait for Elasticsearch to be Ready
-      run: sleep 280
+      run: sleep 60
 
 
-    - name: Update Dependencies for Kibana
-      run: |
-        cd elk-stack/kibana
-        helm dependency update
+    # - name: Update Dependencies for Kibana
+    #   run: |
+    #     cd elk-stack/kibana
+    #     helm dependency update
 
-    - name: Install Kibana
-      run: |
-        cd elk-stack/kibana
-        helm install kibana ./ 
+    # - name: Install Kibana
+    #   run: |
+    #     cd elk-stack/kibana
+    #     helm install kibana ./ 
         
     - name: Retrieve Elasticsearch External IP
       run: |
@@ -108,15 +116,15 @@ jobs:
       run: | 
         echo "The External IP address of elasticsearch is: ${{ env.ELASTICSEARCH_IP }}"
         
-    - name: Retrieve Kibana External IP
-      run: |
-          KIBANA_IP=$(kubectl get service kibana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-          echo "Kibana External IP: $KIBANA_IP"
-          echo "KIBANA_IP=$KIBANA_IP" >> $GITHUB_ENV
+    # - name: Retrieve Kibana External IP
+    #   run: |
+    #       KIBANA_IP=$(kubectl get service kibana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    #       echo "Kibana External IP: $KIBANA_IP"
+    #       echo "KIBANA_IP=$KIBANA_IP" >> $GITHUB_ENV
 
-    - name: Display Kibana External IP
-      run: |
-          echo "The External IP address of Kibana is: ${{ env.KIBANA_IP }}"
+    # - name: Display Kibana External IP
+    #   run: |
+    #       echo "The External IP address of Kibana is: ${{ env.KIBANA_IP }}"
       
     #TO GET EXTERNAL-IP OF LOGSTASH AND USE IT IN THE DEAMONSET OF FILEBEAT :    
     # - name: Retrieve Logstash External IP
