@@ -17,11 +17,11 @@ jobs:
       with:
         creds: ${{ secrets.AZ_CREDENTIALS }}
         
-    - name: Set up Kubernetes Context for AKS
-      uses: azure/aks-set-context@v2
-      with:
-          resource-group: example-resources  
-          cluster-name: example-aks1
+    # - name: Set up Kubernetes Context for AKS
+    #   uses: azure/aks-set-context@v2
+    #   with:
+    #       resource-group: example-resources  
+    #       cluster-name: example-aks1
           
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
