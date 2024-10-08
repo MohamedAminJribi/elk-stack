@@ -9,15 +9,12 @@ terraform {
 }
 
 provider "azurerm" {
-  subscription_id = var.subscription_id
+  subscription_id = "3e46735e-0bec-4d79-b3f7-06e45329de56"
   features {
     
   }
 }
-variable "subscription_id" {
-  description = "The Subscription ID for the Azure account"
-  
-}
+
 
 
 resource "azurerm_resource_group" "example" {
