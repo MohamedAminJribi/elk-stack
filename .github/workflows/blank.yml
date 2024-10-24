@@ -111,11 +111,14 @@ jobs:
       run: |
         cd elk-stack/logstash
         helm install logstash ./
-        
+       
     - name: Display Elasticsearch External IP
       run: | 
         echo "The External IP address of elasticsearch is: ${{ env.ELASTICSEARCH_IP }}"
         
+    - name: Wait for Elasticsearch to be Ready
+      run: sleep 60   
+      
     - name: Retrieve Kibana External IP
       run: |
           KIBANA_IP=$(kubectl get service kibana-kibana  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
