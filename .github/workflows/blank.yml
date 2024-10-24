@@ -118,7 +118,7 @@ jobs:
         
     - name: Retrieve Kibana External IP
       run: |
-          KIBANA_IP=$(kubectl get service kibana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          KIBANA_IP=$(kubectl get service kibana-kibana  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
           echo "Kibana External IP: $KIBANA_IP"
           echo "KIBANA_IP=$KIBANA_IP" >> $GITHUB_ENV
 
