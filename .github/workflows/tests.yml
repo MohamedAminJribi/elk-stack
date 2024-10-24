@@ -46,33 +46,43 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           resource-group: example-resources  
           cluster-name: example-aks1
-          
-      - name: Retrieve Elasticsearch External IP
+      - name: Retrieve Kibana External IP
         run: |
-          ELASTICSEARCH_IP=$(kubectl get service elasticsearch-master -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-          echo "Elasticsearch External IP: $ELASTICSEARCH_IP"
-          echo "ELASTICSEARCH_IP=$ELASTICSEARCH_IP" >> $GITHUB_ENV
+          KIBANA_IP=$(kubectl get service kibana-kibana  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "Kibana External IP: $KIBANA_IP"
+          echo "KIBANA_IP=$KIBANA_IP" >> $GITHUB_ENV
+
+      - name: Display Kibana External IP
+        run: |
+          echo "The External IP address of Kibana is: ${{ env.KIBANA_IP }}"
+      
+          
+      # - name: Retrieve Elasticsearch External IP
+      #   run: |
+      #     ELASTICSEARCH_IP=$(kubectl get service elasticsearch-master -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+      #     echo "Elasticsearch External IP: $ELASTICSEARCH_IP"
+      #     echo "ELASTICSEARCH_IP=$ELASTICSEARCH_IP" >> $GITHUB_ENV
 
       # - name: Update Logstash Configuration with Elasticsearch IP
       #   run: |
       #     cd elk-stack/logstash
       #     sed -i "22s/.*/  hosts: ['${{ env.ELASTICSEARCH_IP }}:9200']/" values.yaml
       #     sed -i "46s/.*/  hosts: ['${{ env.ELASTICSEARCH_IP }}:9200']/" values.yaml
-      - name: Update Logstash Configuration with Elasticsearch IP
-        run: |
-          cd elk-stack/logstash
-          # Update line 22 with the new IP
-          sed -i "s|xpack.monitoring.elasticsearch.hosts: \[.*\]|xpack.monitoring.elasticsearch.hosts: [ \"https://${{ env.ELASTICSEARCH_IP }}:9200\" ]|" values.yaml
-          # Update line 46 with the new IP
-          sed -i "s|hosts => \[.*\]|hosts => [\"https://${{ env.ELASTICSEARCH_IP }}:9200\"]|" values.yaml
+      # - name: Update Logstash Configuration with Elasticsearch IP
+      #   run: |
+      #     cd elk-stack/logstash
+      #     # Update line 22 with the new IP
+      #     sed -i "s|xpack.monitoring.elasticsearch.hosts: \[.*\]|xpack.monitoring.elasticsearch.hosts: [ \"https://${{ env.ELASTICSEARCH_IP }}:9200\" ]|" values.yaml
+      #     # Update line 46 with the new IP
+      #     sed -i "s|hosts => \[.*\]|hosts => [\"https://${{ env.ELASTICSEARCH_IP }}:9200\"]|" values.yaml
 
 
-      - name: Update Dependencies for Logstash
-        run: |
-          cd elk-stack/logstash
-          helm dependency update
+      # - name: Update Dependencies for Logstash
+      #   run: |
+      #     cd elk-stack/logstash
+      #     helm dependency update
 
-      - name: Install Logstash
-        run: |
-          cd elk-stack/logstash
-          helm install logstash ./
+      # - name: Install Logstash
+      #   run: |
+      #     cd elk-stack/logstash
+      #     helm install logstash ./
