@@ -2,9 +2,8 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
+    workflow_dispatch:
+
  
 jobs: 
   deploy:
@@ -36,8 +35,6 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      # env:
-      #     TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       run: terraform plan
 
     - name: Terraform Apply
@@ -130,14 +127,15 @@ jobs:
           echo "The External IP address of Kibana is: ${{ env.KIBANA_IP }}"
       
     #TO GET EXTERNAL-IP OF LOGSTASH AND USE IT IN THE DEAMONSET OF FILEBEAT :    
-    # - name: Retrieve Logstash External IP
-    #   run: |
-    #       LOGSTASH_IP=$(kubectl get service logstash -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    #       echo "Logstash External IP: $LOGSTASH_IP"
-    #       echo "LOGSTASH_IP=$LOGSTASH_IP" >> $GITHUB_ENV
+    - name: Retrieve Logstash External IP
+      run: |
+          LOGSTASH_IP=$(kubectl get service logstash -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "Logstash External IP: $LOGSTASH_IP"
+          echo "LOGSTASH_IP=$LOGSTASH_IP" >> $GITHUB_ENV
     
-     # - name: Display Logstash External IP
-     #   run: echo "The External IP address of Logstash is: ${{ env.LOGSTASH_IP }}"
+    - name: Display Logstash External IP
+      run: |
+         echo "The External IP address of Logstash is: ${{ env.LOGSTASH_IP }}"
 
 
    
